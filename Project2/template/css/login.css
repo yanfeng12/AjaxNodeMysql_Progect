@@ -1,0 +1,39 @@
+body{
+	background: url(../img/bc7d5760d4c9ab2a121afb647c218a84.jpg) no-repeat;
+}
+#login{
+    margin: 100px auto;
+    width: 300px;
+
+}
+#login .title{
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    text-align: center;
+    background-color: #16a085;
+}
+.content{
+    width: 100%;
+    background-color: white;
+    border: 1px solid white;
+}
+.content input{
+    width: 160px;
+}
+.row{
+    height: 30px;
+}
+.form-group{
+    margin-top: 20px;
+}
+.form-group label{
+    text-align: right;
+    display: block;
+    width: 100%;
+}
+.btn-wrap{
+    text-align: center;
+    margin-bottom: 20px;
+}
+

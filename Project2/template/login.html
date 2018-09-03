@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>登陆</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <script src="/js/ajax.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="login">
+            <div class="title">欢迎来到后台管理系统</div>
+            <form action="">
+                <div class="content">
+                    <div class="row form-group">
+                        <div class="col-xs-4 col-md-4">
+                            <label for="">用户名:</label>
+                        </div>
+                        <div class="col-xs-8 col-md-8">
+													<input type="text" id="username">
+												</div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-xs-4 col-md-4">
+                            <label for="">密码:</label>
+                        </div>
+                        <div class="col-xs-8 col-md-8"><input type="password" id="password"></div>
+                    </div>
+                    <div class="row form-group btn-wrap">
+                        <button type="button" id="btn" class="btn btn-danger">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+       var oIpt1 = document.getElementById("username");
+			 var oIpt2 = document.getElementById("password");
+			 var oBtn = document.getElementById("btn");
+			 oBtn.onclick = function  () {
+			 	var opt = {
+					method:"post",
+					url:"/user_login",
+					data : "username="+oIpt1.value+"&password="+oIpt2.value,
+					success : function  (data) {
+						console.log(data);
+						if(data.status === 0){
+							window.location.href = "/admin.html";
+						}else{
+							alert(data.message);
+						}
+					}
+				};
+				ajax(opt);
+			 };
+    </script>
+</body>
+</html>

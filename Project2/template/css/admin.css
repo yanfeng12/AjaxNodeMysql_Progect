@@ -1,0 +1,40 @@
+.admin-h1{
+    text-align: center;
+}
+.nav{
+    height: 40px;
+    line-height: 40px;
+    background-color: black;
+}
+.nav a{
+    color: white;
+}
+.btn{
+    padding: 3px 6px;
+}
+#table td{
+    padding: 12px;
+}
+/*添加用户 编辑用户 面板*/
+#adduser, #editUser{
+    width: 300px;
+    height: 298px;
+    position: absolute;
+    background-color: white;
+    display: none;
+}
+#adduser .row, #editUser .row{
+    height: 45px;
+}
+
+#adduser .col-md-4, #editUser .col-md-4{
+    text-align: right;
+}
+#adduser .col-md-8, #editUser .col-md-8{
+    padding-left: 0;
+}
+#adduser .panel-title, #editUser .panel-title{
+    background-color: #16a085;
+    color: white;
+
+}

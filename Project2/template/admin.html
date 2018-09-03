@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+    <script src="/js/ajax.js"></script>
+</head>
+<body>
+<div class="nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-md-10">
+                <a href="/admin">后台管理系统</a>
+                <a href="" class="btn btn-success" id="add-btn">添加用户</a>
+            </div>
+            <div class="col-xs-2 col-md-2"><a href="/logout">退出系统</a></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <table class="table table-bordered" id="table">
+                <tr>
+                    <th>客户编号</th>
+                    <th>姓名</th>
+                    <th>邮箱</th>
+                    <th>电话</th>
+                    <th>QQ</th>
+                    <th>操作</th>
+                </tr>
+                <!--<tr>-->
+                    <!--<td>1</td>-->
+                    <!--<td>张三</td>-->
+                    <!--<td>1@qq.com</td>-->
+                    <!--<td>135999888899</td>-->
+                    <!--<td>2014868983</td>-->
+                    <!--<td>-->
+                        <!--<a href="" class="btn btn-primary">修改</a>-->
+                        <!--<a href="" class="btn btn-danger">删除</a>-->
+                    <!--</td>-->
+                <!--</tr>-->
+            </table>
+        </div>
+    </div>
+</div>
+<!--添加用户panel-->
+<div class="panel panel-default" id="adduser">
+    <div class="panel-heading">
+        <div class="panel-title">添加用户</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-4 col-md-4">姓名</div>
+            <div class="col-xs-8 col-md-8"><input type="text" id="username"></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">邮箱</div>
+            <div class="col-xs-8 col-md-8"><input type="text" id="email"></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">电话</div>
+            <div class="col-xs-8 col-md-8"><input type="text" id="phone"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">QQ</div>
+            <div class="col-md-8"><input type="text" id="qq"></div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <button class="btn btn-primary" id="save-btn">保存</button>
+        <button class="btn btn-primary" id="cancel-btn">取消</button>
+    </div>
+</div>
+
+<!--编辑用户 panel-->
+<div class="panel panel-default" id="editUser">
+    <div class="panel-heading">
+        <div class="panel-title">编辑用户信息</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">姓名</div>
+            <div class="col-md-8"><input type="text" id="edit-username"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">邮箱</div>
+            <div class="col-md-8"><input type="text" id="edit-email"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">电话</div>
+            <div class="col-md-8"><input type="text" id="edit-phone"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">QQ</div>
+            <div class="col-md-8">
+                <input type="text" id="edit-qq">
+                <input type="hidden" id="edit-id">
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <button class="btn btn-primary" id="edit-save-btn">保存</button>
+        <button class="btn btn-primary" id="edit-cancel-btn">取消</button>
+    </div>
+</div>
+
+<script>
+
+
+</script>
+</body>
+</html>
