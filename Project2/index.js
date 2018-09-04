@@ -50,8 +50,8 @@ var app = http.createServer(function  (req,res) {
 	 	req.on('end',function (err) {
 			if (!err) {
 				//数据接收完成后触发
-				console.log(post_data);
-				console.log("数据接收完成")
+				// console.log(post_data);
+				// console.log("数据接收完成")
 				var  post_obj = querystring.parse(post_data)
 				//判断是否为空
 				if(post_obj.username === '' || post_obj.password === ''){
@@ -59,7 +59,7 @@ var app = http.createServer(function  (req,res) {
 					res.end();
 					return;
 				}
-				console.log(post_obj);
+				// console.log(post_obj);
 				//表名admin 
 				// 
 				var sql = 'INSERT INTO admin(username, password) VALUE("'+post_obj.username+'", "'+post_obj.password+'")';
@@ -125,6 +125,163 @@ var app = http.createServer(function  (req,res) {
 	 	})
 	 	return;
 	 }
+	 
+	 
+	 //获取数据
+	 if (url_obj.pathname === "/getData") {
+		 var sql = "SELECT * FROM user";
+		 connection.query(sql,function  (error,result) {
+		 	if (!error && result && result.length !== 0) {
+		 		// console.log("数据请求成功");
+				// console.log(result);
+				//转换成Json字符串 
+				var resultJsonStr = JSON.stringify(result);
+		 		res.write('{"status":0, "message":"数据请求成功", "data":'+resultJsonStr+'}', 'utf-8');
+		 		res.end();
+		 		return;
+		 	} else {
+		 		res.write('{"status":1, "message":"请求错误"}', 'utf-8');
+		 		res.end();
+		 	}
+		 })
+		 return;
+	 }
+	 
+	 
+	//添加用户
+	if (url_obj.pathname === "/user_add" &&req.method === "POST") {
+		var post_data = "";
+		//要获取post方式发送过来的数据要监听两个事件
+		//data事件作用：当浏览器有数据发送过来时就会触发data事件
+		req.on('data',function (chunk) {
+			//chunk:表示数据块，浏览器把数据切块分块发送
+			post_data += chunk;
+			// console.log(post_data);
+		});
+		req.on('end',function (err) {
+			if (!err) {
+				//数据接收完成后触发
+				console.log(post_data);
+				console.log("数据接收完成")
+				var  post_obj = querystring.parse(post_data)
+				//判断是否为空
+				if(post_obj.username === '' || post_obj.email === '' || post_obj.phone === '' || post_obj.qq === ''){
+					res.write('{"status":1, "message":"内容不能为空"}', 'utf-8');
+					res.end();
+					return;
+				}
+				console.log(post_obj);
+				//表名admin 
+				// 
+				var sql = 'INSERT INTO user(username, email, phone, qq) VALUE("'+post_obj.username+'", "'+post_obj.email+'", "'+post_obj.phone+'", "'+post_obj.qq+'")';
+				connection.query(sql,function (error, result) {
+						//如果没有错误 并且result长度不为0 返回注册成功
+						// console.log("error:", error);
+						// console.log("result:", result);
+					// 如果没有出错 error 是null--false， result 是一个数组
+					// 如果出错  error有东西对象  ！就变成false  result --undifined
+					if(!error && result && result.length !== 0){
+						console.log("添加用户成功！");
+						res.write('{"status":0, "message":"添加用户成功！"}', 'utf-8');
+						res.end();
+						return;
+					}
+				})
+			}
+			
+		})
+		return;
+	}
+	
+	
+	//修改用户
+	if (url_obj.pathname === "/user_edit" &&req.method === "POST") {
+		var post_data = "";
+		//要获取post方式发送过来的数据要监听两个事件
+		//data事件作用：当浏览器有数据发送过来时就会触发data事件
+		req.on('data',function (chunk) {
+			//chunk:表示数据块，浏览器把数据切块分块发送
+			post_data += chunk;
+			// console.log(post_data);
+		});
+		req.on('end',function (err) {
+			if (!err) {
+				//数据接收完成后触发
+				console.log(post_data);
+				console.log("数据接收完成")
+				var  post_obj = querystring.parse(post_data)
+				//判断是否为空
+				if(post_obj.username === '' || post_obj.email === '' || post_obj.phone === '' || post_obj.qq === ''){
+					res.write('{"status":1, "message":"内容不能为空"}', 'utf-8');
+					res.end();
+					return;
+				}
+				console.log(post_obj);
+				//表名admin 
+				// 
+				//UPDATE	user	SET	name	=	'zhangsan'	WHERE	id=2
+				var sql = 'UPDATE	user	SET	username="'+post_obj.username+'", email="'+post_obj.email+'", phone="'+post_obj.phone+'", qq="'+post_obj.qq+'"	WHERE	id="'+post_obj.id+'"'
+				connection.query(sql,function (error, result) {
+						//如果没有错误 并且result长度不为0 返回注册成功
+						// console.log("error:", error);
+						// console.log("result:", result);
+					// 如果没有出错 error 是null--false， result 是一个数组
+					// 如果出错  error有东西对象  ！就变成false  result --undifined
+					if(!error && result && result.length !== 0){
+						console.log("修改用户成功！");
+						res.write('{"status":0, "message":"修改用户成功！"}', 'utf-8');
+						res.end();
+						return;
+					}
+				})
+			}
+			
+		})
+		return;
+	}
+	
+	
+	//删除用户
+	if (url_obj.pathname === "/user_delete" && req.method === "POST") {
+		var post_data = "";
+		//要获取post方式发送过来的数据要监听两个事件
+		//data事件作用：当浏览器有数据发送过来时就会触发data事件
+		req.on('data',function (chunk) {
+			//chunk:表示数据块，浏览器把数据切块分块发送
+			post_data += chunk;
+			// console.log(post_data);
+		});
+		req.on('end',function (err) {
+			if (!err) {
+				//数据接收完成后触发
+				console.log(post_data);
+				console.log("数据接收完成");
+				var  post_obj = querystring.parse(post_data);
+				console.log(post_obj);
+				//表名admin 
+				// 
+				var sql = 'DELETE	FROM	user	WHERE	id="'+post_obj.id+'"';
+				connection.query(sql,function (error, result) {
+						//如果没有错误 并且result长度不为0 返回注册成功
+						// console.log("error:", error);
+						// console.log("result:", result);
+					// 如果没有出错 error 是null--false， result 是一个数组
+					// 如果出错  error有东西对象  ！就变成false  result --undifined
+					if(!error && result && result.length !== 0){
+						console.log("删除用户成功！");
+						res.write('{"status":0, "message":"删除用户成功！"}', 'utf-8');
+						res.end();
+						return;
+					}else {
+			      res.write('{"status":1, "message":"删除用户错误"}', 'utf-8');
+			      res.end();
+		      }
+				})
+			}
+			
+		})
+		return;
+	}
 	//render("./template"+"/css/index-bak.css", res);
 	//render("./template"+"/images/bg.png", res);
 	render("./template"+url_obj.pathname, res);

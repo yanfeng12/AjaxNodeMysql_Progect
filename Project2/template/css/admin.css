@@ -23,6 +23,9 @@
     background-color: white;
     display: none;
 }
+#adduser .panel-heading, #editUser .panel-heading{
+	text-align: center;
+}
 #adduser .row, #editUser .row{
     height: 45px;
 }
@@ -37,4 +40,7 @@
     background-color: #16a085;
     color: white;
 
+}
+#adduser .panel-footer, #editUser .panel-footer{
+	text-align: center;
 }

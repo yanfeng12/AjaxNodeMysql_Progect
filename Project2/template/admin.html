@@ -5,6 +5,14 @@
     <title>后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+	<style type="text/css">
+		th{
+			text-align: center;
+		}
+		td{
+			text-align: center;
+		}
+	</style>
     <script src="/js/ajax.js"></script>
 </head>
 <body>
@@ -31,17 +39,17 @@
                     <th>QQ</th>
                     <th>操作</th>
                 </tr>
-                <!--<tr>-->
-                    <!--<td>1</td>-->
-                    <!--<td>张三</td>-->
-                    <!--<td>1@qq.com</td>-->
-                    <!--<td>135999888899</td>-->
-                    <!--<td>2014868983</td>-->
-                    <!--<td>-->
-                        <!--<a href="" class="btn btn-primary">修改</a>-->
-                        <!--<a href="" class="btn btn-danger">删除</a>-->
-                    <!--</td>-->
-                <!--</tr>-->
+<!--               <tr>
+                    <td>1</td>
+                    <td>张三</td>
+                    <td>1@qq.com</td>
+                    <td>135999888899</td>
+                    <td>2014868983</td>
+                    <td>
+                        <a href="" class="btn btn-primary">修改</a>
+                        <a href="" class="btn btn-danger">删除</a>
+                    </td>
+                </tr> -->
             </table>
         </div>
     </div>
@@ -108,8 +116,168 @@
 </div>
 
 <script>
-
-
+	var oTable = document.getElementById("table");
+	var opt = {
+		method:"get",
+		url:"/getData",
+		data : "",
+		success : function  (data) {
+			// console.log(data);
+			if(data.status === 0){
+				var dataJsonStr = data.data;
+				// console.log(data.data);
+				//类型 object 
+				// console.log(typeof data.data);
+				for (var i=0;i<data.data.length;i++) {
+					var oTr = document.createElement("tr");
+					// data.data[i]没有length属性
+					for (let item in data.data[i]) {
+						// console.log(item);
+						// console.log("===========",data.data[i][item]);
+						//每次取出一个值放入td
+						 var oTd = document.createElement("td");
+						oTd.innerHTML = data.data[i][item];
+						oTd.style.border = "1px solid #ddd";
+						oTr.appendChild(oTd);
+					}
+					//遇到的问题：tr里面少了一个td 需要手动生成
+					//op是我们手动创建的一个td
+					var op = document.createElement("td");
+					op.innerHTML = ' <a href="" class="btn btn-primary">修改</a>\n' +
+							'                        <a href="" class="btn btn-danger">删除</a>'
+					//这条代码就补上已经缺失的td
+					op.style.border = "1px solid #ddd";
+					oTr.appendChild(op);
+					oTable.appendChild(oTr);
+				}
+			}else{
+				alert(data.message);
+			}
+		}
+	};
+	ajax(opt);
+	//添加用户 
+	var oAdduser = document.getElementById("add-btn");
+	var oAddpanal = document.getElementById("adduser");
+	var oAddSave = document.getElementById("save-btn");
+	var oAddCancel = document.getElementById("cancel-btn");
+	var oAddname = document.getElementById("username");
+	var oAddemail = document.getElementById("email");
+	var oAddphone = document.getElementById("phone");
+	var oAddqq = document.getElementById("qq");
+	//编辑用户
+	var oEditpannal = document.getElementById("editUser");
+	var oEditsave = document.getElementById("edit-save-btn");
+	var oEditcancle = document.getElementById("edit-cancel-btn");
+	var oEditname = document.getElementById("edit-username");
+	var oEditemail = document.getElementById("edit-email");
+	var oEditphone = document.getElementById("edit-phone");
+	var oEditqq = document.getElementById("edit-qq")
+	var oEditid = document.getElementById("edit-id")
+	//添加用户
+	oAdduser.onclick = function  () {
+		oAddpanal.style.display = "block";
+		//a标签跳转，没有跳转时刷新本身页面。阻止a标签默认行为.
+		var left = document.documentElement.clientWidth/2 - oAddpanal.offsetWidth/2;
+		var top = document.documentElement.clientHeight/2 - oAddpanal.offsetHeight/2;
+		oAddpanal.style.left = left + "px";
+		oAddpanal.style.top = top + "px";
+		return false;
+	}
+	//添加用户保存
+	oAddSave.onclick = function  () {
+		var opt = {
+			method:"post",
+			url:"/user_add",
+			data : "username="+oAddname.value+"&email="+oAddemail.value+"&phone="+oAddphone.value+"&qq="+oAddqq.value,
+			success : function  (data) {
+				console.log(data);
+				if(data.status === 0){
+					// window.location.href = "/admin.html";
+					//  把对话框隐藏 弹出消息 重新刷新admin.html 页面
+					oAddpanal.style.display = "none";
+					alert(result.message);
+					//刷新当前页面
+					window.location.reload();
+				}else{
+					alert(data.message);
+				}
+			}
+		};
+		ajax(opt);
+	}
+	oAddCancel.onclick = function  () {
+		oAddpanal.style.display = "none";
+	}
+	//编辑用户
+	// console.log(editId.value);
+	oTable.onclick = function (ev) {
+		var ev = ev || event;
+		var aTd = ev.target.parentNode.parentNode.children;
+		console.log(aTd);
+		if(ev.target.innerHTML === "修改"){
+		//  弹出对话框  显示当前行的数据
+			oEditpannal.style.display = "block";
+			var left = document.documentElement.clientWidth/2 - oEditpannal.offsetWidth/2;
+			var top = document.documentElement.clientHeight/2 - oEditpannal.offsetHeight/2;
+			oEditpannal.style.left = left + "px";
+			oEditpannal.style.top = top + "px";
+		//  显示当前行的信息
+			oEditname.value = aTd[1].innerHTML;
+			oEditemail.value = aTd[2].innerHTML;
+			oEditphone.value = aTd[3].innerHTML;
+			oEditqq.value = aTd[4].innerHTML;
+			//修复bug
+			oEditid.value = aTd[0].innerHTML;
+		}
+		if(ev.target.innerHTML === "删除"){
+			// alert("删除操作")
+			var opt = {
+				method:"post",
+				url:"/user_delete",
+				data : "id="+aTd[0].innerHTML,
+				success : function  (data) {
+					console.log(data);
+					if(data.status === 0){
+						// window.location.href = "/admin.html";
+						//  把对话框隐藏 弹出消息 重新刷新admin.html 页面
+						oEditpannal.style.display = "none";
+						alert(data.message);
+						//刷新当前页面
+						window.location.reload();
+					}else{
+						alert(data.message);
+					}
+				}
+			};
+			ajax(opt);
+		}
+		return false;
+	}
+	oEditsave.onclick = function  () {
+		var opt = {
+			method:"post",
+			url:"/user_edit",
+			data : "username="+oEditname.value+"&email="+oEditemail.value+"&phone="+oEditphone.value+"&qq="+oEditqq.value+"&id="+oEditid.value,
+			success : function  (data) {
+				console.log(data);
+				if(data.status === 0){
+					// window.location.href = "/admin.html";
+					//  把对话框隐藏 弹出消息 重新刷新admin.html 页面
+					oEditpannal.style.display = "none";
+					alert(data.message);
+					//刷新当前页面
+					window.location.reload();
+				}else{
+					alert(data.message);
+				}
+			}
+		};
+		ajax(opt);
+	}
+	oEditcancle.onclick = function  () {
+		oEditpannal.style.display = "none";
+	}
 </script>
 </body>
 </html>
