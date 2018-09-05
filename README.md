@@ -8,4 +8,7 @@
 ## 2.初始化npm	init -y
 ## 3.npm install jquery	--save
 ## 4.npm install mysql	--save
-## 5.npm install cookie	--save
+## 5.npm install cookie	--save\
+
+报错enoent no such file or directory
+关掉所有程序，文件被占用了。
