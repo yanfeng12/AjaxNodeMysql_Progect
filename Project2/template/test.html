@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/ajax.js"></script>
+</head>
+<body>
+<button>设置cookie</button>
+<button>获取cookie</button>
+<script>
+    var aBtn = document.getElementsByTagName("button");
+    aBtn[0].onclick = function () {
+      ajax({
+        method: "get",
+        url: '/setcookie',
+        success: function (result) {
+          console.log(result)
+        }
+      })
+    }
+    aBtn[1].onclick = function () {
+      ajax({
+        method: "get",
+        url: '/getcookie',
+        success: function (result) {
+          console.log(result)
+        }
+      })
+    }
+</script>
+</body>
+</html>

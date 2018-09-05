@@ -105,6 +105,7 @@
             <div class="col-md-4">QQ</div>
             <div class="col-md-8">
                 <input type="text" id="edit-qq">
+				 <!--后台需要，而不要显示 -->
                 <input type="hidden" id="edit-id">
             </div>
         </div>
@@ -211,8 +212,12 @@
 	}
 	//编辑用户
 	// console.log(editId.value);
+	//事件冒泡
+	//在父元素中添加事件
 	oTable.onclick = function (ev) {
 		var ev = ev || event;
+		//parentNode父节点
+		//td的父节点tr的父节点table的子元素
 		var aTd = ev.target.parentNode.parentNode.children;
 		console.log(aTd);
 		if(ev.target.innerHTML === "修改"){

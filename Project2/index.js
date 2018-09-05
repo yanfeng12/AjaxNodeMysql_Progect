@@ -1,6 +1,8 @@
 var  http = require('http');
 var  url = require('url');
 var  fs = require('fs');
+//引入cookie
+var cookie = require('cookie');
 var  querystring = require('querystring');
 //引入数据库
 var mysql = require('mysql');
@@ -107,10 +109,12 @@ var app = http.createServer(function  (req,res) {
 	 			}
 	 			console.log(post_obj);
 	 			//表名admin 
+				//登陆成功返回cookie 
 	 			var sql = "SELECT * FROM admin WHERE username='"+post_obj.username+"' AND password='"+post_obj.password+"'";
 	 			connection.query(sql, function (error, result) {
 					if (!error && result && result.length !== 0) {
 						console.log("登陆成功");
+						res.setHeader('Set-Cookie',	cookie.serialize('isLogin',	"true"));
 						res.write('{"status":0, "message":"登陆成功"}', 'utf-8');
 						res.end();
 						return;
@@ -281,6 +285,30 @@ var app = http.createServer(function  (req,res) {
 			
 		})
 		return;
+	}
+	
+	
+	
+	//登陆成功进入admin.html时验证
+	if (url_obj.pathname === "/admin.html") {
+		// cookie.parse只能处理字符串
+		// 清除cookie后，req.headers.cookie不是个字符串
+		var	cookie_obj	=	cookie.parse(req.headers.cookie	||	'')
+		if (cookie_obj.isLogin	===	"true") {
+			render("./template/admin.html",res);
+		} else{
+			render("./template/error.html",res);
+		}
+		return;
+	}
+	
+	
+	//推出登陆
+	if (url_obj.pathname === "/logout") {
+			//修改cookie中登录的标识
+			res.setHeader('Set-Cookie',	cookie.serialize('isLogin',	""));
+			render("./template/index.html",	res);	
+			return;
 	}
 	//render("./template"+"/css/index-bak.css", res);
 	//render("./template"+"/images/bg.png", res);
